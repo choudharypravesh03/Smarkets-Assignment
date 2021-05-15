@@ -30,6 +30,13 @@ const EventDetails = () => {
         }
     }
 
+    const getStatus = (status) => {
+        if (status === 'NOT_STARTED') {
+            return 'Match has not started.'
+        }
+        return status
+    }
+
     return (
         <Layout>
             {!isLoading ? <EventDetailsContainer>
@@ -40,6 +47,7 @@ const EventDetails = () => {
                             <p className="state">{eventData.state}</p>
                             <p className="time">{eventData.time}</p>
                         </div>
+                        <h3>{stats && getStatus(stats.status)}</h3>
                     </div>
                     {stats && stats.status !== "NOT_STARTED" ? <div className="event-stats">
                         <h4>Minutes: {stats.minute}</h4>
@@ -68,7 +76,7 @@ const EventDetails = () => {
                                 <p>Substitutions: {stats.away.substitutions}</p>
                             </div>
                         </div>
-                    </div> : <h2 className="pad-top">Match has not started</h2>}
+                    </div> : <h2 className="pad-top">No stats found</h2>}
                 </div>
             </EventDetailsContainer>: <Loader />}
         </Layout>
@@ -80,6 +88,7 @@ const EventDetailsContainer = styled.div`
         .header {
             .more-details {
                 display: flex;
+                margin-bottom: 2rem;
                 .state {
                     margin-right: 1rem;
                 }

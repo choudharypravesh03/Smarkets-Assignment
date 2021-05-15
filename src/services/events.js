@@ -12,7 +12,9 @@ export const getPopularFootballEventIds = async () => {
 
 
 export const getEventsForIds = async () => {
+    console.log('coming into getEventsForIds')
     const response = await getPopularFootballEventIds()
+    console.log('response -> ', response)
     if (response.status === 200) {
         const eventIds = response.data?.popular_event_ids.join()
         return ApiClient.get(`events/${eventIds}`)

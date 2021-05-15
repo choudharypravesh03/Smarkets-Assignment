@@ -4,7 +4,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 import Layout from '../components/Layout';
 import Loader from '../components/Loader'
-import { getPopularFootballEventIds, getEventsForIds } from '../services/events';
+import { getEventsForIds } from '../services/events';
 
 const TopEvents = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +17,7 @@ const TopEvents = () => {
   const getEvents = async () => {
     try {
         const response = await getEventsForIds()
+        console.log("🚀 ~ file: TopEvents.js ~ line 20 ~ getEvents ~ response", response)
         setData(response.data?.events)
         setIsLoading(false)
     } catch (error) {
@@ -28,7 +29,7 @@ const TopEvents = () => {
   const getTimeInHours = (start_time) => {
     const currentTime = moment(Date.now())
     const startTime = moment(start_time)
-    const diff = currentTime.diff(startTime, 'hours')
+    const diff = currentTime.diff(startTime, 'h')
     if (diff < 0) {
         return `Played ${diff*(-1)} hours ago`
     }

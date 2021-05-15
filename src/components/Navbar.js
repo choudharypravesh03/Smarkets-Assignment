@@ -11,23 +11,6 @@ const Navbar = class extends React.Component {
     }
   }
 
-  toggleHamburger = () => {
-    this.setState(
-      {
-        active: !this.state.active,
-      },
-      () => {
-        this.state.active
-          ? this.setState({
-              navBarActiveClass: 'is-active',
-            })
-          : this.setState({
-              navBarActiveClass: '',
-            })
-      }
-    )
-  }
-
   render() {
     return (
       <nav
@@ -37,15 +20,6 @@ const Navbar = class extends React.Component {
       >
         <div className="container">
           <div className="navbar-brand">
-            <div
-              className={`navbar-burger burger ${this.state.navBarActiveClass}`}
-              data-target="navMenu"
-              onClick={() => this.toggleHamburger()}
-            >
-              <span />
-              <span />
-              <span />
-            </div>
             <Link to="/" className="navbar-item" title="Logo">
               <img src={'http://t0.gstatic.com/images?q=tbn:ANd9GcQhB3DgbiOeUV8o28bm0rVk75qnUA-Evh7GAdmb5bivLyEgoJXH'} alt="logo" style={{ width: '169px' }} />
             </Link>
