@@ -2,6 +2,7 @@ import { Link, BrowserRouter as Router, Route, Redirect } from "react-router-dom
 import TopEvents from './pages/TopEvents'
 import logo from './logo.svg';
 import './App.css';
+import EventDetails from "./pages/EventDetails";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Redirect to="/sports/football" />
       </Route>
       <Route exact path="/sports/football" component={TopEvents} />
+      <Route path="/game/:slug" component={EventDetails} />
     </Router>
   </>)
 }

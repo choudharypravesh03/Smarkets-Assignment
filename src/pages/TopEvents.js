@@ -29,7 +29,6 @@ const TopEvents = () => {
     const currentTime = moment(Date.now())
     const startTime = moment(start_time)
     const diff = currentTime.diff(startTime, 'hours')
-    console.log("diff -> ",diff)
     if (diff < 0) {
         return `Played ${diff*(-1)} hours ago`
     }
@@ -50,7 +49,12 @@ const TopEvents = () => {
                     {data.map(item => {
                         return(
                             <li key={item.id} className="item-tile event-tile popular layout-row">
-                                <Link to={`${item.full_slug}`}>
+                                <Link to={{
+                                    pathname: `/game${item.full_slug}`,
+                                    state: {
+                                        eventInfo: {...item, time: getTimeInHours(item.start_datetime)},
+                                    },
+                                }}>
                                     <div className="event-info-container">
                                         <h4 className="event-name">{item.name}</h4>
                                         <div className="time-info">
