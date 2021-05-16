@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The Application consists of two pages - `TopEvents` and `EventDetails`.
 
-`TopEvents1` - This page is the main page which shows the most popular events in the sports and football category. 
+`TopEvents` - This page is the main page which shows the most popular events in the sports and football category. 
 
 `EventDetails` - This page is rendered when we click on one of the popular events from TopEvents page. It shows the basic details about the Event. 
 Wherever stats are present, it shows the stats. Otherwise it shows proper message if no events found or when some error occured. 
