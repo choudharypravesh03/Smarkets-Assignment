@@ -1,6 +1,6 @@
+import React from 'react'
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import TopEvents from './pages/TopEvents'
-import './App.css';
 import EventDetails from "./pages/EventDetails";
 
 function App() {
