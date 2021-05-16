@@ -1,5 +1,4 @@
 import { AppError } from './AppError'
-import { AxiosError } from 'axios'
 
 export const getAppError = (error) => {
   const url = `${error?.config?.baseURL}${error?.config?.url}`

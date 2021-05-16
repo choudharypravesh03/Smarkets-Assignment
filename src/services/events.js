@@ -1,6 +1,7 @@
 // impor
 
 import ApiClient from "../client/ApiClient";
+import { ERROR_MESSAGE } from "../constants";
 
 export const getPopularFootballEventIds = async () => {
     try {
@@ -20,7 +21,7 @@ export const getEventsForIds = async () => {
         return ApiClient.get(`events/${eventIds}`)
     } else {
         // Can show some toast at the bottom
-        throw('Some error occured. Please try again')
+        return new Error(ERROR_MESSAGE)
     }
 }
 

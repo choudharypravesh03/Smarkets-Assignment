@@ -1,6 +1,5 @@
-import { Link, BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import TopEvents from './pages/TopEvents'
-import logo from './logo.svg';
 import './App.css';
 import EventDetails from "./pages/EventDetails";
 

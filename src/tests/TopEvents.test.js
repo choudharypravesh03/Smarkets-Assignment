@@ -3,6 +3,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import TopEvents from '../pages/TopEvents'
 import { getPopularFootballEventIds, getEventsForIds } from '../services/events'
+import { ERROR_MESSAGE, NO_EVENTS_FOUND } from '../constants';
 
 
 const eventIds = {
@@ -45,19 +46,39 @@ const successResponse = [
     }
 ]
 
-
 jest.mock("../services/events", () => {
     return {
         getPopularFootballEventIds: jest.fn(() => Promise.resolve(eventIds)),
         getEventsForIds: jest.fn(() => Promise.resolve({data: {events: successResponse}, status: 200}))
     };
-  });
+});
 
 describe('Popular Events', () => {
+    beforeAll(() => {
+        jest.clearAllMocks()
+    })
     it('should show events when more than zero', async () => {
         const { getByText } = render(<Router><TopEvents /></Router>)
         await waitFor(() => {
             expect(getByText('Brighton vs West Ham')).toBeTruthy()
+        });
+    })
+
+    it('should show proper message when no events found', async () => {
+        getPopularFootballEventIds.mockImplementation(() => Promise.resolve({data: {popular_event_ids: []}, status: 200}))
+        getEventsForIds.mockImplementation(() => Promise.resolve({data: {events: []}, status: 200}))
+        const { queryByText } = render(<Router><TopEvents /></Router>)
+        await waitFor(() => {
+            expect(queryByText(NO_EVENTS_FOUND)).toBeTruthy()
+        });
+    })
+
+    it('Should show error message when error occured', async () => {
+        getPopularFootballEventIds.mockImplementation(() => Promise.resolve({data: {popular_event_ids: []}, status: 500}))
+        getEventsForIds.mockImplementation(() => Promise.resolve({data: {events: []}, status: 500}))
+        const { queryByText } = render(<Router><TopEvents /></Router>)
+        await waitFor(() => {
+            expect(queryByText(ERROR_MESSAGE)).toBeTruthy()
         });
     })
 }) 

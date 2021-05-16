@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import Loader from '../components/Loader'
+import { ERROR_MESSAGE, NO_STATS_FOUND } from '../constants'
 import { getEventStats } from '../services/events'
 
-const EventDetails = () => {
-    const location = useLocation()
+const EventDetails = ({ location }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [stats, setStats] = useState(null);
+    const [error, setError] = useState(false)
     const [eventData, setEventData] = useState()
 
     useEffect(() => {
@@ -18,16 +18,15 @@ const EventDetails = () => {
     }, [location])
 
     const getEventDetails = async (id) => {
-        try {
-            const response = await getEventStats(id)
+        const response = await getEventStats(id)
+        if (response.status === 200) {
             if (response.data.event_stats[0]) {
                 setStats(response.data?.event_stats[0].stats)
             }
-            setIsLoading(false)
-        } catch (error) {
-            // Can show some toast to user for error
-            console.log('error -> ', error)
+        } else {
+            setError(true)
         }
+        setIsLoading(false)
     }
 
     const getStatus = (status) => {
@@ -76,7 +75,8 @@ const EventDetails = () => {
                                 <p>Substitutions: {stats.away.substitutions}</p>
                             </div>
                         </div>
-                    </div> : <h2 className="pad-top">No stats found</h2>}
+                    </div> : <h2 className="pad-top">{NO_STATS_FOUND}</h2>}
+                    {error && <h2 className="pad-top">{ERROR_MESSAGE}</h2>}
                 </div>
             </EventDetailsContainer>: <Loader />}
         </Layout>

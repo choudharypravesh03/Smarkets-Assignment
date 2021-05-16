@@ -5,25 +5,25 @@ import styled from 'styled-components'
 import Layout from '../components/Layout';
 import Loader from '../components/Loader'
 import { getEventsForIds } from '../services/events';
+import { ERROR_MESSAGE, NO_EVENTS_FOUND } from '../constants';
 
 const TopEvents = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     getEvents();
   }, []);
 
   const getEvents = async () => {
-    try {
-        const response = await getEventsForIds()
-        console.log("🚀 ~ file: TopEvents.js ~ line 20 ~ getEvents ~ response", response)
+    const response = await getEventsForIds()
+    if (response.status === 200) {
         setData(response.data?.events)
-        setIsLoading(false)
-    } catch (error) {
-        // Can show some toast to user for error
-        console.log('error -> ', error)
+    } else {
+        setError(true)
     }
+    setIsLoading(false)
   }
 
   const getTimeInHours = (start_time) => {
@@ -47,7 +47,7 @@ const TopEvents = () => {
                 </div>
                 <h2 className="event-header">Popular</h2>
                 <ul className="event-list list-view  football">
-                    {data.map(item => {
+                    {data && data.length > 0 ? data.map(item => {
                         return(
                             <li key={item.id} className="item-tile event-tile popular layout-row">
                                 <Link to={{
@@ -66,8 +66,9 @@ const TopEvents = () => {
                                 </Link>
                             </li>
                         )
-                    })}
+                    }) : <h2 className="pad-top">{NO_EVENTS_FOUND}</h2>}
                 </ul>
+                {error && <h2 className="pad-top">{ERROR_MESSAGE}</h2>}
             </div>
 
         </TopEventsContainer>
